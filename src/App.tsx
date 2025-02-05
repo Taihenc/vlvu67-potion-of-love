@@ -12,6 +12,7 @@ function App() {
 
         const increaseHeight = () => {
             if (divRef.current && isIncreasing) {
+                divRef.current.style.transition = 'height 0s'; // Remove transition
                 const currentHeight = parseInt(
                     divRef.current.style.height || '0'
                 );
@@ -35,6 +36,7 @@ function App() {
 
     const resetHeight = () => {
         if (divRef.current) {
+            divRef.current.style.transition = 'height 0.5s';
             divRef.current.style.height = '0px';
         }
     };
