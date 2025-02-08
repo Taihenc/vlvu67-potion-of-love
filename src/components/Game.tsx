@@ -101,7 +101,7 @@ const Game: React.FC<GameProps> = (props) => {
     return (
         <>
             <div className='w-full h-full flex justify-center items-center'>
-                <div className='flex flex-col items-center gap-17'>
+                <div className='relative flex flex-col items-center gap-17'>
                     <h1 className='relative text-3xl font-black text-[#fff4ba] h1-shadow'>
                         Bouquet of Scents
                     </h1>
