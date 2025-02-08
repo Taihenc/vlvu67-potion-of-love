@@ -1,10 +1,46 @@
 import { useRef, useState } from 'react';
 import Button from './Button';
-import { options } from '../config/variables';
+import {
+    config,
+    Options,
+    options,
+    results,
+    ResultData,
+} from '../config/variables';
 import { useNavigate } from 'react-router-dom';
 
 type GameProps = {
     result?: string;
+};
+
+const matchResult = (stat_counter: Map<Options, number>) => {
+    let max = 0;
+    let best_result: ResultData | undefined = undefined;
+
+    // change stat_couter to percentage
+    let sum = 0;
+    for (const value of stat_counter.values()) {
+        sum += value;
+    }
+    for (const [name, value] of stat_counter) {
+        stat_counter.set(name, (value / sum) * 100);
+    }
+
+    // find the highest percentage
+    for (const result of results) {
+        let sum = 0;
+
+        for (const [name, value] of Object.entries(result.score)) {
+            sum += Math.min(value, stat_counter.get(name as Options) || 0);
+        }
+
+        if (max < sum) {
+            max = sum;
+            best_result = result; // Assuming bestResult is a variable to store the best match
+        }
+    }
+
+    return best_result;
 };
 
 const Game: React.FC<GameProps> = (props) => {
@@ -13,16 +49,29 @@ const Game: React.FC<GameProps> = (props) => {
     let isIncreasing = false;
     const [intervalId, setIntervalId] = useState<number | null>(null);
 
-    const startIncreasingHeight = () => {
+    const stat_counter = useRef(new Map<Options, number>());
+    const [final_result, setFinalResult] = useState<ResultData | undefined>(
+        undefined
+    );
+
+    const startIncreasingHeight = (option: Options) => {
         isIncreasing = true;
 
         const increaseHeight = () => {
             if (divRef.current && isIncreasing) {
-                divRef.current.style.transition = 'height 0s'; // Remove transition
                 const currentHeight = parseInt(
                     divRef.current.style.height || '0'
                 );
+                if (currentHeight >= config.gauge_height) {
+                    setFinalResult(matchResult(stat_counter.current));
+                    return;
+                }
+                divRef.current.style.transition = 'height 0s'; // Remove transition
                 divRef.current.style.height = `${currentHeight + 1}px`; // Increase height by 1px
+                stat_counter.current.set(
+                    option,
+                    (stat_counter.current.get(option) || 0) + 1
+                );
             }
         };
 
@@ -45,6 +94,8 @@ const Game: React.FC<GameProps> = (props) => {
             divRef.current.style.transition = 'height 0.5s';
             divRef.current.style.height = '0px';
         }
+        stat_counter.current = new Map<Options, number>();
+        setFinalResult(undefined);
     };
 
     return (
@@ -63,7 +114,10 @@ const Game: React.FC<GameProps> = (props) => {
                             ยืนยัน
                         </Button>
                     </div>
-                    <div className='h-[20rem] flex text-sm gap-5 justify-center items-center'>
+                    <div
+                        className='flex text-sm gap-5 justify-center items-center'
+                        style={{ height: `${config.gauge_height}px` }}
+                    >
                         <div
                             id='option-left'
                             className='h-full flex flex-col justify-between'
@@ -74,8 +128,11 @@ const Game: React.FC<GameProps> = (props) => {
                                     <Button
                                         className={option.color + ' w-[10rem]'}
                                         key={index}
-                                        onMouseDown={startIncreasingHeight}
+                                        onMouseDown={() =>
+                                            startIncreasingHeight(option.id)
+                                        }
                                         onMouseUp={stopIncreasingHeight}
+                                        onMouseLeave={stopIncreasingHeight}
                                     >
                                         {option.text}
                                     </Button>
@@ -107,8 +164,11 @@ const Game: React.FC<GameProps> = (props) => {
                                             ' w-[10rem] transition-all duration-300'
                                         }
                                         key={index}
-                                        onMouseDown={startIncreasingHeight}
+                                        onMouseDown={() =>
+                                            startIncreasingHeight(option.id)
+                                        }
                                         onMouseUp={stopIncreasingHeight}
+                                        onMouseLeave={stopIncreasingHeight}
                                     >
                                         {option.text}
                                     </Button>
@@ -117,12 +177,16 @@ const Game: React.FC<GameProps> = (props) => {
                     </div>
                     <div className='flex gap-5'>
                         <Button
-                            className='w-[10rem] bg-[#ef67ae]'
+                            className='w-[10rem] bg-[#ef67ae] disabled:bg-gray-400 disabled:cursor-not-allowed'
                             onClick={
                                 props.result
-                                    ? () => navigate(`${props.result}`)
+                                    ? () =>
+                                          navigate(
+                                              `${props.result}?urtype=${final_result?.id}`
+                                          )
                                     : undefined
                             }
+                            disabled={!final_result}
                         >
                             ผลลัพธ์
                         </Button>

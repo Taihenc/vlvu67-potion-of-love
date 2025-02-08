@@ -6,6 +6,8 @@ type ButtonsProps = {
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onMouseDown?: (event: React.MouseEvent<HTMLButtonElement>) => void;
     onMouseUp?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onMouseLeave?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    disabled?: boolean;
 };
 
 // accept children & text props
@@ -22,6 +24,8 @@ const Button: React.FC<ButtonsProps> = (props) => {
                 onClick={props.onClick}
                 onMouseDown={props.onMouseDown}
                 onMouseUp={props.onMouseUp}
+                onMouseLeave={props.onMouseLeave}
+                disabled={props.disabled}
             >
                 {props.children}
             </button>
