@@ -1,29 +1,56 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from './Button';
+import { ResultData, results } from '../config/variables';
+import { useEffect } from 'react';
 
 const Result: React.FC = () => {
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+    const urtype = searchParams.get('urtype'); // Get the 'urtype' param
+
+    let result: ResultData | undefined = undefined;
+    for (const res of results) {
+        if (res.id === urtype) {
+            result = res;
+            break;
+        }
+    }
+    useEffect(() => {
+        if (!result) {
+            console.error('Invalid urtype');
+            navigate('/'); // ✅ Navigates correctly inside useEffect
+        }
+    }, [result, navigate]);
+
     return (
-        <div className='w-full h-full flex flex-col gap-[3rem] justify-center items-center'>
-            <div className='w-[22rem] border-white border-[1rem] rounded-lg'>
-                <img src='../../public/ref/477994_0.jpg' alt='' />
-            </div>
-            <h1 className='relative text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
-                You value honestly!
-            </h1>
-            <div className='flex gap-5'>
-                <Button
-                    className='w-[10rem] bg-[#ef67ae]'
-                    onClick={() => navigate('/')}
-                >
-                    เริ่มต้นใหม่
-                </Button>
-                <Button
-                    className='w-[10rem] bg-[#fbf0ab] text-[#bcb374]'
-                    onClick={() => navigate('/')}
-                >
-                    กลับสู่หน้าหลัก
-                </Button>
+        <div className='w-full h-full flex justify-center items-center'>
+            <div className='w-[22rem] flex flex-col gap-[3rem] justify-center items-center  text-center'>
+                <div className='w-full border-white border-[1rem] rounded-lg'>
+                    <img src={`../../public/ref/${result?.image}`} alt='' />
+                </div>
+                <div>
+                    <h1 className='relative text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
+                        You value {result!.most_value}!
+                    </h1>
+                    <p className='mt-3 text-justify indent-[3ch]'>
+                        {result?.description}
+                    </p>
+                </div>
+                <div className='flex gap-5'>
+                    <Button
+                        className='w-[10rem] bg-[#ef67ae]'
+                        onClick={() => navigate('/')}
+                    >
+                        เริ่มต้นใหม่
+                    </Button>
+                    <Button
+                        className='w-[10rem] bg-[#fbf0ab] text-[#bcb374]'
+                        onClick={() => navigate('/')}
+                    >
+                        กลับสู่หน้าหลัก
+                    </Button>
+                </div>
             </div>
         </div>
     );
