@@ -75,6 +75,18 @@ body {
     box-shadow: 0px 0px 60px 45px rgba(166, 167, 241, 255);
 }
 
+.h1-shadow-yellow::after {
+    content: '';
+    top: 50%;
+    left: 12.5%;
+    height: 0%;
+    width: 75%;
+    z-index: -1;
+    position: absolute;
+    box-shadow: 0px 0px 60px 45px rgba(251, 240, 171, 0.4);
+    text-shadow: 0px 0px 3px 3px rgba(16, 16, 16, 1);
+}
+
 .gauge-shadow {
     box-shadow: 0px 0px 10px 1px rgba(243, 173, 220, 1);
 }
