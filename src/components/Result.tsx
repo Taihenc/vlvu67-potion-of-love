@@ -1,7 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import Button from './Button';
 import { ResultData, results } from '../config/variables';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import imagesLoaded from 'imagesloaded';
 
 type ResultProps = {
     setLoading: (loading: boolean) => void;
@@ -26,10 +27,22 @@ const Result: React.FC<ResultProps> = (props) => {
         }
     }, [result, props.navigate]);
 
-    // set loading to false after the component is mounted
     useEffect(() => {
-        props.setLoading(false);
-    }, []);
+        // Define the listener function
+        const handleImagesLoaded = () => {
+            props.setLoading(false); // All images have loaded
+        };
+
+        // Set up the imagesLoaded listener
+        const imgLoad = imagesLoaded(document.body, handleImagesLoaded);
+
+        // Cleanup function to remove the listener
+        return () => {
+            if (imgLoad) {
+                imgLoad.off('done', handleImagesLoaded); // Pass both event name and listener
+            }
+        };
+    }, [props.setLoading]); // Add props.setLoading as a dependency
 
     return (
         <div className='w-full h-full flex justify-center items-center'>

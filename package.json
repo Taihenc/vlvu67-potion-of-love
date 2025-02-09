@@ -12,7 +12,9 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.3",
     "@tailwindcss/vite": "^4.0.3",
+    "@types/imagesloaded": "^4.1.6",
     "framer-motion": "^12.4.1",
+    "imagesloaded": "^5.0.0",
     "postcss": "^8.5.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
