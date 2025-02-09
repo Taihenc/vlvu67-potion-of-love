@@ -46,27 +46,27 @@ const Result: React.FC<ResultProps> = (props) => {
 
     return (
         <div className='w-full h-full flex justify-center items-center'>
-            <div className='w-[22rem] flex flex-col gap-[3rem] justify-center items-center  text-center'>
+            <div className='h-[37rem] w-[22rem] max-w-[80%]  flex flex-col gap-2 justify-between items-center  text-center'>
                 <div className='w-full border-white border-[1rem] rounded-lg'>
                     <img src={`/ref/${result?.image}`} alt='' />
                 </div>
-                <div>
-                    <h1 className='text-nowrap relative text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
+                <div className='w-full'>
+                    <h1 className='text-nowrap relative text-[1.4rem] md:text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
                         You value {result!.most_value}!
                     </h1>
-                    <p className='mt-3 text-justify indent-[3ch]'>
+                    <p className='mt-3 text-justify indent-[3ch] relative h1-shadow'>
                         {result?.description}
                     </p>
                 </div>
-                <div className='flex gap-5'>
+                <div className='w-full flex justify-between gap-2'>
                     <Button
-                        className='w-[10rem] bg-[#ef67ae]'
+                        className='w-[10rem] max-w-[30vw] bg-[#ef67ae]'
                         onClick={() => props.navigate('/')}
                     >
                         เริ่มต้นใหม่
                     </Button>
                     <Button
-                        className='w-[10rem] bg-[#fbf0ab] text-[#bcb374]'
+                        className='w-[10rem] max-w-[40vw] bg-[#fbf0ab] text-[#bcb374]'
                         onClick={() => props.navigate('/')}
                     >
                         กลับสู่หน้าหลัก

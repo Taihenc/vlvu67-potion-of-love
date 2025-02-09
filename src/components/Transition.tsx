@@ -42,6 +42,11 @@ export const PageTransition = ({
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1, ease: 'easeOut' }}
                 >
+                    <div className='w-full h-full absolute -z-10 bg-[#e5d5f9]'>
+                        <div className='semi-circle-top'></div>
+                        <div className='square-mid'></div>
+                        <div className='semi-circle-bottom'></div>
+                    </div>
                     <motion.span
                         className='text-xl font-bold text-gray-800'
                         animate={{ rotate: 360 }}

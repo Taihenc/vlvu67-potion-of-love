@@ -106,11 +106,11 @@ const Game: React.FC<GameProps> = (props) => {
     return (
         <>
             <div className='w-full h-full flex justify-center items-center'>
-                <div className='relative flex flex-col items-center gap-17'>
-                    <h1 className='relative text-3xl font-black text-[#fff4ba] h1-shadow'>
+                <div className='w-full h-[42rem] max-h-[80%] relative flex flex-col items-center justify-between gap-2'>
+                    <h1 className='relative text-3xl text-nowrap font-black text-[#fff4ba] h1-shadow'>
                         Bouquet of Scents
                     </h1>
-                    <div className='w-[24rem] flex gap-1'>
+                    <div className='w-[24rem] max-w-[80%] flex gap-1'>
                         <input
                             className='w-full bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-purple-500 hover:border-purple-300 shadow-sm focus:shadow'
                             placeholder='ใส่ใจ>.<'
@@ -120,7 +120,7 @@ const Game: React.FC<GameProps> = (props) => {
                         </Button>
                     </div>
                     <div
-                        className='flex text-sm gap-5 justify-center items-center'
+                        className='w-[27rem] max-w-[85vw] flex text-sm justify-between items-center gap-2'
                         style={{ height: `${config.gauge_height}px` }}
                     >
                         <div
@@ -131,7 +131,10 @@ const Game: React.FC<GameProps> = (props) => {
                                 .slice(0, Math.ceil(options.length / 2))
                                 .map((option, index) => (
                                     <Button
-                                        className={option.color + ' w-[10rem]'}
+                                        className={
+                                            option.color +
+                                            ' max-w-[33vw] w-[10rem] text-nowrap'
+                                        }
                                         key={index}
                                         onMouseDown={() =>
                                             startIncreasingHeight(option.id)
@@ -166,7 +169,7 @@ const Game: React.FC<GameProps> = (props) => {
                                     <Button
                                         className={
                                             option.color +
-                                            ' w-[10rem] transition-all duration-300'
+                                            ' max-w-[33vw] w-[10rem] text-nowrap'
                                         }
                                         key={index}
                                         onMouseDown={() =>
