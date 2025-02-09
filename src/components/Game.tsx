@@ -67,7 +67,7 @@ const Game: React.FC<GameProps> = (props) => {
                     return;
                 }
                 divRef.current.style.transition = 'height 0s'; // Remove transition
-                divRef.current.style.height = `${currentHeight + 1}px`; // Increase height by 1px
+                divRef.current.style.height = `${currentHeight + 100}px`; // Increase height by 1px
                 stat_counter.current.set(
                     option,
                     (stat_counter.current.get(option) || 0) + 1
@@ -101,7 +101,7 @@ const Game: React.FC<GameProps> = (props) => {
     // set loading to false after the component is mounted
     useEffect(() => {
         props.setLoading(false);
-    }, [props]);
+    }, []);
 
     return (
         <>

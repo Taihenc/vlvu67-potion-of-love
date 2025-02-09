@@ -29,7 +29,7 @@ const Result: React.FC<ResultProps> = (props) => {
     // set loading to false after the component is mounted
     useEffect(() => {
         props.setLoading(false);
-    }, [props]);
+    }, []);
 
     return (
         <div className='w-full h-full flex justify-center items-center'>
@@ -38,7 +38,7 @@ const Result: React.FC<ResultProps> = (props) => {
                     <img src={`/ref/${result?.image}`} alt='' />
                 </div>
                 <div>
-                    <h1 className='relative text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
+                    <h1 className='text-nowrap relative text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
                         You value {result!.most_value}!
                     </h1>
                     <p className='mt-3 text-justify indent-[3ch]'>
