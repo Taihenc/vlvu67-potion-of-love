@@ -2,49 +2,117 @@ import {
     BrowserRouter as Router,
     Routes,
     Route,
-    useLocation,
+    useNavigate,
 } from 'react-router-dom';
 import Game from './components/Game';
 import Result from './components/Result';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const PageTransition = () => {
-    const [isVisible, setIsVisible] = useState(true);
+const PageTransition = ({
+    destination,
+    isLoading,
+    setIsLoading,
+}: {
+    destination: string;
+    isLoading: boolean;
+    setIsLoading: (loading: boolean) => void;
+}) => {
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setIsVisible(true);
-        const timeout = setTimeout(() => setIsVisible(false), 1000); // Hide after 1 sec
-        return () => clearTimeout(timeout);
-    }, []);
+        setIsLoading(true); // Start loading process
+
+        // Simulate loading process
+        setTimeout(() => {
+            navigate(destination);
+        }, 1000); // Simulated transition time
+    }, [destination, navigate, isLoading]);
 
     return (
         <AnimatePresence>
-            {isVisible && (
+            {isLoading && (
                 <motion.div
-                    className='fixed z-50 inset-0 flex items-center justify-center bg-[#e5d5f9] backdrop-blur-lg'
-                    initial={{ opacity: 1 }}
+                    className='fixed z-50 inset-0 flex items-center justify-center bg-white/60 backdrop-blur-lg'
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    transition={{ duration: 1, ease: 'easeOut' }}
                 >
-                    <motion.span className='text-xl font-bold text-gray-800'>
-                        🔄 ตรงนี้อาจจะเอาโลโก้มาใส่ ให้มันเปลี่ยนหน้าแบบสมูทๆๆๆๆ
+                    <motion.span
+                        className='text-xl font-bold text-gray-800'
+                        animate={{ rotate: 360 }}
+                        transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: 'linear',
+                        }}
+                    >
+                        🔄 อาจจะเอาโลโก้มาใส่จะได้transitionสมูทๆ
                     </motion.span>
                 </motion.div>
             )}
         </AnimatePresence>
     );
 };
+
+const useNavigateWithTransition = () => {
+    const [transitionDestination, setTransitionDestination] = useState<
+        string | null
+    >(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const navigateWithTransition = (destination: string) => {
+        setTransitionDestination(destination); // Start transition
+        setIsLoading(true); // Start fade-in transition
+    };
+
+    return {
+        transitionDestination,
+        navigateWithTransition,
+        isLoading,
+        setIsLoading,
+    };
+};
+
 const AnimatedRoutes = () => {
-    const location = useLocation();
+    const {
+        transitionDestination,
+        navigateWithTransition,
+        isLoading,
+        setIsLoading,
+    } = useNavigateWithTransition();
 
     return (
-        <AnimatePresence mode='wait'>
-            <PageTransition key={location.pathname} />
-            <Routes location={location} key={location.pathname}>
-                <Route path='/' element={<Game result='/result' />} />
-                <Route path='/result' element={<Result />} />
+        <AnimatePresence mode='sync'>
+            {transitionDestination && (
+                <PageTransition
+                    destination={transitionDestination}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                    key={transitionDestination}
+                />
+            )}
+            <Routes>
+                <Route
+                    path='/'
+                    element={
+                        <Game
+                            result='/result'
+                            navigate={navigateWithTransition}
+                            setLoading={setIsLoading}
+                        />
+                    }
+                />
+                <Route
+                    path='/result'
+                    element={
+                        <Result
+                            navigate={navigateWithTransition}
+                            setLoading={setIsLoading}
+                        />
+                    }
+                />
             </Routes>
         </AnimatePresence>
     );

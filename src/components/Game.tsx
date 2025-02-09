@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from './Button';
 import {
     config,
@@ -7,10 +7,11 @@ import {
     results,
     ResultData,
 } from '../config/variables';
-import { useNavigate } from 'react-router-dom';
 
 type GameProps = {
     result?: string;
+    navigate?: (destination: string) => void;
+    setLoading: (loading: boolean) => void;
 };
 
 const matchResult = (stat_counter: Map<Options, number>) => {
@@ -44,7 +45,6 @@ const matchResult = (stat_counter: Map<Options, number>) => {
 };
 
 const Game: React.FC<GameProps> = (props) => {
-    const navigate = useNavigate();
     const divRef = useRef<HTMLDivElement>(null);
     let isIncreasing = false;
     const [intervalId, setIntervalId] = useState<number | null>(null);
@@ -97,6 +97,11 @@ const Game: React.FC<GameProps> = (props) => {
         stat_counter.current = new Map<Options, number>();
         setFinalResult(undefined);
     };
+
+    // set loading to false after the component is mounted
+    useEffect(() => {
+        props.setLoading(false);
+    }, [props]);
 
     return (
         <>
@@ -179,11 +184,12 @@ const Game: React.FC<GameProps> = (props) => {
                         <Button
                             className='w-[10rem] bg-[#ef67ae] disabled:bg-gray-400 disabled:cursor-not-allowed'
                             onClick={
-                                props.result
-                                    ? () =>
-                                          navigate(
+                                final_result
+                                    ? () => {
+                                          props.navigate!(
                                               `${props.result}?urtype=${final_result?.id}`
-                                          )
+                                          );
+                                      }
                                     : undefined
                             }
                             disabled={!final_result}

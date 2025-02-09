@@ -1,11 +1,14 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Button from './Button';
 import { ResultData, results } from '../config/variables';
 import { useEffect } from 'react';
 
-const Result: React.FC = () => {
-    const navigate = useNavigate();
+type ResultProps = {
+    setLoading: (loading: boolean) => void;
+    navigate: (path: string) => void;
+};
 
+const Result: React.FC<ResultProps> = (props) => {
     const [searchParams] = useSearchParams();
     const urtype = searchParams.get('urtype'); // Get the 'urtype' param
 
@@ -19,15 +22,20 @@ const Result: React.FC = () => {
     useEffect(() => {
         if (!result) {
             console.error('Invalid urtype');
-            navigate('/'); // ✅ Navigates correctly inside useEffect
+            props.navigate('/'); // ✅ Navigates correctly inside useEffect
         }
-    }, [result, navigate]);
+    }, [result, props.navigate]);
+
+    // set loading to false after the component is mounted
+    useEffect(() => {
+        props.setLoading(false);
+    }, [props]);
 
     return (
         <div className='w-full h-full flex justify-center items-center'>
             <div className='w-[22rem] flex flex-col gap-[3rem] justify-center items-center  text-center'>
                 <div className='w-full border-white border-[1rem] rounded-lg'>
-                    <img src={`../../public/ref/${result?.image}`} alt='' />
+                    <img src={`/ref/${result?.image}`} alt='' />
                 </div>
                 <div>
                     <h1 className='relative text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
@@ -40,13 +48,13 @@ const Result: React.FC = () => {
                 <div className='flex gap-5'>
                     <Button
                         className='w-[10rem] bg-[#ef67ae]'
-                        onClick={() => navigate('/')}
+                        onClick={() => props.navigate('/')}
                     >
                         เริ่มต้นใหม่
                     </Button>
                     <Button
                         className='w-[10rem] bg-[#fbf0ab] text-[#bcb374]'
-                        onClick={() => navigate('/')}
+                        onClick={() => props.navigate('/')}
                     >
                         กลับสู่หน้าหลัก
                     </Button>
