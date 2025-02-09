@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import Button from './Button';
 import { ResultData, results } from '../config/variables';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import imagesLoaded from 'imagesloaded';
 
 type ResultProps = {
