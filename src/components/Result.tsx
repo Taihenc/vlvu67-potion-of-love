@@ -46,12 +46,12 @@ const Result: React.FC<ResultProps> = (props) => {
 
     return (
         <div className='w-full h-full flex justify-center items-center'>
-            <div className='h-[37rem] w-[22rem] max-w-[80%]  flex flex-col gap-2 justify-between items-center  text-center'>
+            <div className='h-[40rem] w-[22rem] max-w-[80%]  flex flex-col gap-2 justify-between items-center  text-center'>
                 <div className='w-full border-white border-[1rem] rounded-lg'>
                     <img src={`/ref/${result?.image}`} alt='' />
                 </div>
                 <div className='w-full'>
-                    <h1 className='text-nowrap relative text-[1.4rem] md:text-3xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
+                    <h1 className='text-nowrap relative text-[1.4rem] md:text-2xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
                         You value {result!.most_value}!
                     </h1>
                     <p className='mt-3 text-justify indent-[3ch] relative h1-shadow'>
