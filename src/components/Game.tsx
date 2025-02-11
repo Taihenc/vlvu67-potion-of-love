@@ -14,25 +14,24 @@ type GameProps = {
     setLoading: (loading: boolean) => void;
 };
 
-const matchResult = (stat_counter: Map<Options, number>) => {
+const matchResult = (statCounter: Record<Options, number>) => {
     let max = 0;
     let best_result: ResultData | undefined = undefined;
 
     // change stat_couter to percentage
     let sum = 0;
-    for (const value of stat_counter.values()) {
+    for (const value of Object.values(statCounter)) {
         sum += value;
     }
-    for (const [name, value] of stat_counter) {
-        stat_counter.set(name, (value / sum) * 100);
+    for (const [name, value] of Object.entries(statCounter)) {
+        statCounter[name as Options] = (value / sum) * 100;
     }
-
     // find the highest percentage
     for (const result of results) {
         let sum = 0;
 
         for (const [name, value] of Object.entries(result.score)) {
-            sum += Math.min(value, stat_counter.get(name as Options) || 0);
+            sum += Math.min(value, statCounter[name as Options]);
         }
 
         if (max < sum) {
@@ -48,8 +47,13 @@ const Game: React.FC<GameProps> = (props) => {
     const divRef = useRef<HTMLDivElement>(null);
     let isIncreasing = false;
     const [intervalId, setIntervalId] = useState<number | null>(null);
+    const [, forceUpdate] = useState(0); // Dummy state to force re-render
 
-    const stat_counter = useRef(new Map<Options, number>());
+    const [statCounter, setStatCounter] = useState<Record<Options, number>>(
+        Object.fromEntries(
+            Object.values(Options).map((option) => [option, 0])
+        ) as Record<Options, number>
+    );
     const [final_result, setFinalResult] = useState<ResultData | undefined>(
         undefined
     );
@@ -63,15 +67,17 @@ const Game: React.FC<GameProps> = (props) => {
                     divRef.current.style.height || '0'
                 );
                 if (currentHeight >= config.gauge_height) {
-                    setFinalResult(matchResult(stat_counter.current));
+                    setFinalResult(matchResult(statCounter));
                     return;
                 }
                 divRef.current.style.transition = 'height 0s'; // Remove transition
                 divRef.current.style.height = `${currentHeight + 1}px`; // Increase height by 1px
-                stat_counter.current.set(
-                    option,
-                    (stat_counter.current.get(option) || 0) + 1
-                );
+                // Update state to trigger re-render
+                setStatCounter((prev) => ({
+                    ...prev,
+                    [option]:
+                        (prev[option] || 0) + (1 / config.gauge_height) * 100,
+                }));
             }
         };
 
@@ -94,8 +100,11 @@ const Game: React.FC<GameProps> = (props) => {
             divRef.current.style.transition = 'height 0.5s';
             divRef.current.style.height = '0px';
         }
-        stat_counter.current = new Map<Options, number>();
+        for (const key in statCounter) {
+            statCounter[key as Options] = 0;
+        }
         setFinalResult(undefined);
+        forceUpdate((prev) => prev + 1);
     };
 
     // set loading to false after the component is mounted
@@ -133,7 +142,7 @@ const Game: React.FC<GameProps> = (props) => {
                                     <Button
                                         className={
                                             option.color +
-                                            ' max-w-[33vw] w-[10rem] text-nowrap'
+                                            ' max-w-[33vw] w-[10rem] text-nowrap relative'
                                         }
                                         key={index}
                                         onMouseDown={() =>
@@ -143,6 +152,19 @@ const Game: React.FC<GameProps> = (props) => {
                                         onMouseLeave={stopIncreasingHeight}
                                     >
                                         {option.text}
+                                        {
+                                            <p
+                                                className={
+                                                    option.color +
+                                                    ' px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
+                                                }
+                                            >
+                                                {statCounter[
+                                                    option.id as Options
+                                                ].toFixed(0)}
+                                                %
+                                            </p>
+                                        }
                                     </Button>
                                 ))}
                         </div>
@@ -169,7 +191,7 @@ const Game: React.FC<GameProps> = (props) => {
                                     <Button
                                         className={
                                             option.color +
-                                            ' max-w-[33vw] w-[10rem] text-nowrap'
+                                            ' max-w-[33vw] w-[10rem] text-nowrap relative'
                                         }
                                         key={index}
                                         onMouseDown={() =>
@@ -179,6 +201,19 @@ const Game: React.FC<GameProps> = (props) => {
                                         onMouseLeave={stopIncreasingHeight}
                                     >
                                         {option.text}
+                                        {
+                                            <p
+                                                className={
+                                                    option.color +
+                                                    ' px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
+                                                }
+                                            >
+                                                {statCounter[
+                                                    option.id as Options
+                                                ].toFixed(0)}
+                                                %
+                                            </p>
+                                        }
                                     </Button>
                                 ))}
                         </div>
