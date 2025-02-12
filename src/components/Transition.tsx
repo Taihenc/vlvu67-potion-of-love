@@ -42,7 +42,7 @@ export const PageTransition = ({
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1, ease: 'easeOut' }}
                 >
-                    <div className='w-[100vw] h-[100vh] absolute -z-10 bg-[url(./bg.webp)] bg-cover bg-center blur-lg'>
+                    <div className='w-[100vw] h-[100vh] absolute -z-10 bg-[url(/bg.webp)] bg-cover bg-center blur-lg'>
                         <div className='semi-circle-top'></div>
                         <div className='square-yellow-move-around'></div>
                         <div className='square-white'></div>
