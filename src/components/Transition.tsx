@@ -19,7 +19,7 @@ export const PageTransition = ({
                 console.log('Navigating to', destination);
                 navigate(destination);
                 setHasNavigated(true); // Set flag to true after navigation
-            }, 1000); // Simulated transition time
+            }, 1500); // Simulated transition time
 
             return () => {
                 clearTimeout(timeoutId); // Cleanup timeout on unmount
@@ -44,10 +44,16 @@ export const PageTransition = ({
                 >
                     <div className='w-[100vw] h-[100vh] absolute -z-10 bg-[url(./bg.webp)] bg-cover bg-center blur-lg'>
                         <div className='semi-circle-top'></div>
-                        <div className='square-mid'></div>
+                        <div className='square-yellow-move-around'></div>
+                        <div className='square-white'></div>
                         <div className='semi-circle-bottom'></div>
                     </div>
-                    <motion.span
+                    <img
+                        src='/title.webp'
+                        alt=''
+                        className='w-[30rem] float-animation'
+                    />
+                    {/* <motion.span
                         className='text-xl font-bold text-gray-800'
                         animate={{ rotate: 360 }}
                         transition={{
@@ -57,7 +63,7 @@ export const PageTransition = ({
                         }}
                     >
                         🔄 อาจจะเอาโลโก้มาใส่จะได้transitionสมูทๆ
-                    </motion.span>
+                    </motion.span> */}
                 </motion.div>
             )}
         </AnimatePresence>

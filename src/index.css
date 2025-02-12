@@ -52,6 +52,47 @@ body {
     box-shadow: 0 0 250px 250px rgba(190, 193, 249, 1);
 }
 
+.square-white {
+    content: '';
+    width: 1px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 0 250px 250px rgba(255, 255, 255, 0.9);
+}
+
+.square-yellow-move-around {
+    content: '';
+    width: 1px;
+    height: 1px;
+    background-color: rgba(251, 240, 171, 1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 0 250px 250px rgba(251, 240, 171, 1);
+    animation: moveAround 0.7s ease-in-out infinite;
+}
+
+@keyframes moveAround {
+    0% {
+        transform: translate(-30px, -30px);
+    }
+    25% {
+        transform: translate(30px, -30px);
+    }
+    50% {
+        transform: translate(30px, 30px);
+    }
+    75% {
+        transform: translate(-30px, 30px);
+    }
+    100% {
+        transform: translate(-30px, -30px);
+    }
+}
+
 /* Bottom Semi-Circle */
 .semi-circle-bottom {
     width: 1px;
