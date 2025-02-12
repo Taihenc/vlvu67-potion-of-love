@@ -37,7 +37,7 @@ body {
     position: absolute;
     top: 0;
     left: 50%;
-    box-shadow: 0 0 250px 250px rgba(233, 173, 220, 1);
+    box-shadow: 0 0 250px 250px rgba(233, 173, 220, 0.5);
 }
 
 /* Middle Square */
@@ -61,7 +61,7 @@ body {
     position: absolute;
     bottom: 0;
     left: 50%;
-    box-shadow: 0 0 250px 250px rgba(233, 173, 220, 1);
+    box-shadow: 0 0 250px 250px rgba(233, 173, 220, 0.5);
 }
 
 .h1-shadow::after {
@@ -98,4 +98,19 @@ body {
 /* somehow tailwind not working for this */
 button:active {
     filter: brightness(0.75);
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(0, 10px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
 }
