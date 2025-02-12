@@ -56,16 +56,18 @@ const App = () => {
                 <div className='square-mid'></div>
                 <div className='semi-circle-bottom'></div>
             </div>
-            <img
-                src='/cloud.png'
-                alt=''
-                className='-bottom-10 -right-10 md:-bottom-5 md:-right-5 fixed w-[30rem] opacity-50 float-animation'
-            />
-            <img
-                src='/moon.png'
-                alt=''
-                className='-top-10 -left-[30%] md:top-5 md:left-0 fixed w-[30rem] opacity-60'
-            />
+            <div className='w-[100vw] h-[100vh] absolute -z-10'>
+                <img
+                    src='/cloud.png'
+                    alt=''
+                    className='-bottom-10 -right-10 md:-bottom-5 md:-right-5 fixed w-[30rem] opacity-50 float-animation'
+                />
+                <img
+                    src='/moon.png'
+                    alt=''
+                    className='-top-10 -left-[30%] md:top-5 md:left-0 fixed w-[30rem] opacity-60'
+                />
+            </div>
             <div className='w-full h-full'>
                 <Router>
                     <AnimatedRoutes />
