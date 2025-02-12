@@ -51,7 +51,7 @@ export const PageTransition = ({
                     <img
                         src='/title.webp'
                         alt=''
-                        className='w-[30rem] float-animation'
+                        className='w-[15rem] md:w-[30rem] float-animation'
                     />
                     {/* <motion.span
                         className='text-xl font-bold text-gray-800'

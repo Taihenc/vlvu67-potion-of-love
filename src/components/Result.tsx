@@ -47,7 +47,7 @@ const Result: React.FC<ResultProps> = (props) => {
 
     return (
         <div className='w-full h-full flex justify-center items-center'>
-            <div className='h-[43rem] w-[22rem] max-w-[80%]  flex flex-col gap-2 justify-between items-center  text-center'>
+            <div className='h-[43rem] w-[22rem] max-w-[80%] max-h-[80%]  flex flex-col gap-2 justify-between items-center  text-center'>
                 <div className='w-full border-white border-[1rem] rounded-lg'>
                     <img src={`/ref/${result?.image}`} alt='' />
                 </div>
