@@ -51,7 +51,7 @@ const AnimatedRoutes = () => {
 const App = () => {
     return (
         <>
-            <div className='w-[100vw] h-[100vh] absolute -z-10 bg-[#e5d5f9]'>
+            <div className='w-[100vw] h-[100vh] absolute -z-10 bg-[url(./bg.webp)] bg-cover bg-center blur-lg'>
                 <div className='semi-circle-top'></div>
                 <div className='square-mid'></div>
                 <div className='semi-circle-bottom'></div>

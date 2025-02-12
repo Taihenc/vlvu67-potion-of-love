@@ -57,6 +57,7 @@ const Game: React.FC<GameProps> = (props) => {
     const [final_result, setFinalResult] = useState<ResultData | undefined>(
         undefined
     );
+    const [player_name, setPlayerName] = useState<string>('');
 
     const startIncreasingHeight = (option: Options) => {
         isIncreasing = true;
@@ -66,10 +67,7 @@ const Game: React.FC<GameProps> = (props) => {
                 const currentHeight = parseInt(
                     divRef.current.style.height || '0'
                 );
-                if (currentHeight >= config.gauge_height) {
-                    setFinalResult(matchResult(statCounter));
-                    return;
-                }
+                if (currentHeight >= config.gauge_height) return;
                 divRef.current.style.transition = 'height 0s'; // Remove transition
                 divRef.current.style.height = `${currentHeight + 1}px`; // Increase height by 1px
                 // Update state to trigger re-render
@@ -92,6 +90,11 @@ const Game: React.FC<GameProps> = (props) => {
         if (intervalId !== null) {
             clearInterval(intervalId);
             setIntervalId(null);
+        }
+        const currentHeight = parseInt(divRef.current?.style.height || '0');
+        if (currentHeight >= config.gauge_height) {
+            setFinalResult(matchResult(statCounter));
+            return;
         }
     };
 
@@ -123,6 +126,10 @@ const Game: React.FC<GameProps> = (props) => {
                         <input
                             className='w-full bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-purple-500 hover:border-purple-300 shadow-sm focus:shadow'
                             placeholder='ใส่ใจ>.<'
+                            value={player_name || ''}
+                            onChange={(e) => {
+                                setPlayerName(e.target.value);
+                            }}
                         />
                         <Button className='bg-[#7750df] w-[5rem]'>
                             ยืนยัน
@@ -225,12 +232,12 @@ const Game: React.FC<GameProps> = (props) => {
                                 final_result
                                     ? () => {
                                           props.navigate!(
-                                              `${props.result}?urtype=${final_result?.id}`
+                                              `${props.result}?urtype=${final_result?.id}&pname=${player_name}`
                                           );
                                       }
                                     : undefined
                             }
-                            disabled={!final_result}
+                            disabled={!final_result || !player_name}
                         >
                             ผลลัพธ์
                         </Button>
