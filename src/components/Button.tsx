@@ -2,6 +2,7 @@ import { twMerge } from 'tailwind-merge';
 
 type ButtonsProps = {
     className?: string;
+    style?: React.CSSProperties;
     children?: React.ReactNode;
     onClick?: () => void;
     onMouseDown?: () => void;
@@ -21,6 +22,7 @@ const Button: React.FC<ButtonsProps> = (props) => {
         <div>
             <button
                 className={_className}
+                style={props.style}
                 onClick={props.onClick}
                 onMouseDown={props.onMouseDown}
                 onMouseUp={props.onMouseUp}

@@ -189,10 +189,11 @@ const Game: React.FC<GameProps> = (props) => {
                                 .map((option, index) => (
                                     <Button
                                         className={
-                                            'bg-[' +
-                                            option.color +
-                                            '] max-w-[33vw] w-[10rem] text-[#3e5466] text-nowrap relative'
+                                            'max-w-[33vw] w-[10rem] text-[#3e5466] text-nowrap relative'
                                         }
+                                        style={{
+                                            backgroundColor: option.color,
+                                        }}
                                         key={index}
                                         onMouseDown={() =>
                                             startIncreasingHeight(option.id)
@@ -204,10 +205,12 @@ const Game: React.FC<GameProps> = (props) => {
                                         {
                                             <p
                                                 className={
-                                                    'bg-[' +
-                                                    option.color +
-                                                    '] px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
+                                                    'px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
                                                 }
+                                                style={{
+                                                    backgroundColor:
+                                                        option.color,
+                                                }}
                                             >
                                                 {statCounter[
                                                     option.id as Options
@@ -243,10 +246,11 @@ const Game: React.FC<GameProps> = (props) => {
                                 .map((option, index) => (
                                     <Button
                                         className={
-                                            'bg-[' +
-                                            option.color +
-                                            '] max-w-[33vw] w-[10rem] text-[#3e5466] text-nowrap relative'
+                                            'max-w-[33vw] w-[10rem] text-[#3e5466] text-nowrap relative'
                                         }
+                                        style={{
+                                            backgroundColor: option.color,
+                                        }}
                                         key={index}
                                         onMouseDown={() =>
                                             startIncreasingHeight(option.id)
@@ -258,10 +262,12 @@ const Game: React.FC<GameProps> = (props) => {
                                         {
                                             <p
                                                 className={
-                                                    'bg-[' +
-                                                    option.color +
-                                                    '] px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
+                                                    'px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
                                                 }
+                                                style={{
+                                                    backgroundColor:
+                                                        option.color,
+                                                }}
                                             >
                                                 {statCounter[
                                                     option.id as Options
