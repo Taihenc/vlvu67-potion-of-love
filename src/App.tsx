@@ -39,7 +39,7 @@ const AnimatedRoutes = () => {
                     element={
                         <Result
                             navigate={navigateWithTransition}
-                            setLoading={setIsLoading}
+                            setLoading={isLoading ? setIsLoading : undefined}
                         />
                     }
                 />

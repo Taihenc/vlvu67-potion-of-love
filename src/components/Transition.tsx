@@ -74,7 +74,7 @@ export const useNavigateWithTransition = () => {
     const [transitionDestination, setTransitionDestination] = useState<
         string | null
     >(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigateWithTransition = (destination: string) => {
         console.log('Setting transition destination to', destination);

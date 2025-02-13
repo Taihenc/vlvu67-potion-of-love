@@ -3,9 +3,10 @@ import Button from './Button';
 import { ResultData, results } from '../config/variables';
 import { useEffect } from 'react';
 import imagesLoaded from 'imagesloaded';
+import confetti from 'canvas-confetti';
 
 type ResultProps = {
-    setLoading: (loading: boolean) => void;
+    setLoading?: (loading: boolean) => void;
     navigate: (path: string) => void;
 };
 
@@ -31,7 +32,14 @@ const Result: React.FC<ResultProps> = (props) => {
     useEffect(() => {
         // Define the listener function
         const handleImagesLoaded = () => {
-            props.setLoading(false); // All images have loaded
+            if (props.setLoading) {
+                props.setLoading(false);
+                confetti({
+                    particleCount: 100,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                });
+            }
         };
 
         // Set up the imagesLoaded listener
@@ -43,7 +51,7 @@ const Result: React.FC<ResultProps> = (props) => {
                 imgLoad.off('done', handleImagesLoaded); // Pass both event name and listener
             }
         };
-    }, [props.setLoading]); // Add props.setLoading as a dependency
+    }, []); // Add props.setLoading as a dependency
 
     return (
         <div className='w-full h-full flex justify-center items-center'>
@@ -52,7 +60,7 @@ const Result: React.FC<ResultProps> = (props) => {
                     <img src={`/ref/${result?.image}`} alt='' />
                 </div>
                 <div className='w-full'>
-                    <h1 className='w-full text-nowrap relative text-[1rem] sm:text-[1.4rem] md:text-2xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
+                    <h1 className='w-full text-nowrap relative text-[1.4rem] md:text-2xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
                         A Scent That Defines You, <br />
                         <span className='text-pink-200 text-wrap max-w-full break-all'>
                             "{player_name ? player_name : 'You'}"
