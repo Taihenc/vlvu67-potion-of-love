@@ -76,8 +76,8 @@ const colorMix = (statCounter: Record<Options, number>) => {
                 const b = parseInt(color.slice(5, 7), 16) * weight;
                 const toHex = (num: number) =>
                     Math.round(num).toString(16).padStart(2, '0');
-                const new_color = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
                 if (color_mix === '') {
+                    const new_color = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
                     color_mix = new_color;
                     continue;
                 } else {
