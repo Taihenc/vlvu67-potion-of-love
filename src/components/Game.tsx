@@ -7,6 +7,7 @@ import {
     results,
     ResultData,
 } from '../config/variables';
+import InputName from './InputName';
 
 type GameProps = {
     result?: string;
@@ -41,6 +42,58 @@ const matchResult = (statCounter: Record<Options, number>) => {
     }
 
     return best_result;
+};
+
+const colorMix = (statCounter: Record<Options, number>) => {
+    // single color
+    if (Object.values(statCounter).filter((value) => value > 0).length === 1) {
+        return Object.entries(statCounter).reduce(
+            (acc, [name, value]) =>
+                value > 0
+                    ? options.find((option) => option.id === name)?.color || ''
+                    : acc,
+            ''
+        );
+    }
+    // multiple color (#rrggbb)
+    let color_mix = '';
+    let sum = 0;
+
+    for (const [_, value] of Object.entries(statCounter)) {
+        if (value > 0) {
+            sum += value;
+        }
+    }
+
+    for (const [name, value] of Object.entries(statCounter)) {
+        if (value > 0) {
+            const option = options.find((option) => option.id === name);
+            if (option) {
+                const weight = value / sum;
+                const color = option.color;
+                const r = parseInt(color.slice(1, 3), 16) * weight;
+                const g = parseInt(color.slice(3, 5), 16) * weight;
+                const b = parseInt(color.slice(5, 7), 16) * weight;
+                const toHex = (num: number) =>
+                    Math.round(num).toString(16).padStart(2, '0');
+                const new_color = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+                if (color_mix === '') {
+                    color_mix = new_color;
+                    continue;
+                } else {
+                    color_mix = `#${toHex(
+                        Math.round(parseInt(color_mix.slice(1, 3), 16) + r)
+                    )}${toHex(
+                        Math.round(parseInt(color_mix.slice(3, 5), 16) + g)
+                    )}${toHex(
+                        Math.round(parseInt(color_mix.slice(5, 7), 16) + b)
+                    )}`;
+                }
+            }
+        }
+    }
+
+    return color_mix;
 };
 
 const Game: React.FC<GameProps> = (props) => {
@@ -122,19 +175,7 @@ const Game: React.FC<GameProps> = (props) => {
                     <h1 className='relative text-3xl text-nowrap font-black text-[#fff4ba] h1-shadow'>
                         Bouquet of Scents
                     </h1>
-                    <div className='w-[24rem] max-w-[80%] flex gap-1'>
-                        <input
-                            className='w-full bg-white placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-purple-500 hover:border-purple-300 shadow-sm focus:shadow'
-                            placeholder='ใส่ใจ>.<'
-                            value={player_name || ''}
-                            onChange={(e) => {
-                                setPlayerName(e.target.value);
-                            }}
-                        />
-                        <Button className='bg-[#7750df] w-[5rem]'>
-                            ยืนยัน
-                        </Button>
-                    </div>
+                    <InputName name={player_name} setName={setPlayerName} />
                     <div
                         className='w-[27rem] max-w-[85vw] flex text-sm justify-between items-center gap-2'
                         style={{ height: `${config.gauge_height}px` }}
@@ -148,8 +189,9 @@ const Game: React.FC<GameProps> = (props) => {
                                 .map((option, index) => (
                                     <Button
                                         className={
+                                            'bg-[' +
                                             option.color +
-                                            ' max-w-[33vw] w-[10rem] text-nowrap relative'
+                                            '] max-w-[33vw] w-[10rem] text-[#3e5466] text-nowrap relative'
                                         }
                                         key={index}
                                         onMouseDown={() =>
@@ -162,8 +204,9 @@ const Game: React.FC<GameProps> = (props) => {
                                         {
                                             <p
                                                 className={
+                                                    'bg-[' +
                                                     option.color +
-                                                    ' px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
+                                                    '] px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
                                                 }
                                             >
                                                 {statCounter[
@@ -182,7 +225,10 @@ const Game: React.FC<GameProps> = (props) => {
                             <div
                                 ref={divRef}
                                 className='w-full h-0 absolute bottom-0 bg-[#ef67ae]'
-                                style={{ height: '0px' }}
+                                style={{
+                                    height: '0px',
+                                    backgroundColor: colorMix(statCounter),
+                                }}
                             ></div>
                         </div>
                         <div
@@ -197,8 +243,9 @@ const Game: React.FC<GameProps> = (props) => {
                                 .map((option, index) => (
                                     <Button
                                         className={
+                                            'bg-[' +
                                             option.color +
-                                            ' max-w-[33vw] w-[10rem] text-nowrap relative'
+                                            '] max-w-[33vw] w-[10rem] text-[#3e5466] text-nowrap relative'
                                         }
                                         key={index}
                                         onMouseDown={() =>
@@ -211,8 +258,9 @@ const Game: React.FC<GameProps> = (props) => {
                                         {
                                             <p
                                                 className={
+                                                    'bg-[' +
                                                     option.color +
-                                                    ' px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
+                                                    '] px-2 absolute -bottom-2 default-shadow left-1/2 -translate-x-1/2 rounded'
                                                 }
                                             >
                                                 {statCounter[
