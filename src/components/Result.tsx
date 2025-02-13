@@ -52,11 +52,13 @@ const Result: React.FC<ResultProps> = (props) => {
                     <img src={`/ref/${result?.image}`} alt='' />
                 </div>
                 <div className='w-full'>
-                    <h1 className='text-nowrap relative text-[1.4rem] md:text-2xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
-                        A Scent That Defines You, <br />"
-                        {player_name ? player_name : 'You'}"
+                    <h1 className='w-full text-nowrap relative text-[1rem] sm:text-[1.4rem] md:text-2xl font-black text-[#fff4ba] h1-shadow-yellow drop-shadow-md'>
+                        A Scent That Defines You, <br />
+                        <span className='text-pink-200 text-wrap max-w-full break-all'>
+                            "{player_name ? player_name : 'You'}"
+                        </span>
                     </h1>
-                    <p className='mt-5 text-justify indent-[3ch] relative h1-shadow'>
+                    <p className='mt-5 text-justify indent-[3ch] relative h1-shadow-yellow text-gray-100'>
                         {result?.description}
                     </p>
                 </div>

@@ -40,7 +40,9 @@ const InputName: React.FC<InputNameProps> = (props) => {
                 >
                     <h1 className='md:-mb-[2rem] px-2 text-center text-xl text-gray-100'>
                         Hi there, Let's find your perfect scent💫, <br />
-                        <span className='text-[#f293c4]'>"{props.name}"</span>
+                        <span className='text-pink-200 max-w-fit text-wrap break-all'>
+                            "{props.name}"
+                        </span>
                     </h1>
                 </motion.div>
             )}
